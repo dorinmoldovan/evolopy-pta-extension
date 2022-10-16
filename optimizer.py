@@ -59,7 +59,7 @@ def run(optimizer, objectivefunc, NumOfRuns, params, export_flags):
     N/A
     """
 
-    # Select general parameters for all optimizers (population size, number of iterations) ....
+    # Select general parameters for all optimizers (population size, number of iterations)
     PopulationSize = params["PopulationSize"]
     Iterations = params["Iterations"]
 
@@ -135,11 +135,9 @@ def run(optimizer, objectivefunc, NumOfRuns, params, export_flags):
                 out.close()
 
     if Export_convergence == True:
-        print("aaa")
         conv_plot.run(results_directory, optimizer, objectivefunc, Iterations)
 
     if Export_boxplot == True:
-        print("bbb")
         box_plot.run(results_directory, optimizer, objectivefunc, Iterations)
 
     if Flag == False:  # Failed to run at least one experiment
