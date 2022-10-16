@@ -17,7 +17,7 @@ objectivefunc = ["f1"]
 
 # Select number of repetitions for each experiment.
 # To obtain meaningful statistical results, usually 30 independent runs are executed for each algorithm.
-NumOfRuns = 30
+NumOfRuns = 2
 
 # Select general parameters for all optimizers (population size, number of iterations).
 params = {"PopulationSize": 50, "Iterations": 1000}
