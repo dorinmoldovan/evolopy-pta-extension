@@ -5,7 +5,7 @@ An extension of the [EvoloPy](https://github.com/7ossam81/EvoloPy) project which
 
 - Six nature-inspired algorithms were applied.
 - 24 objective functions were applied.
-- 3 machine learning applications were presented.
+- 1 machine learning application was presented.
 
 ## Installation
 
