@@ -58,7 +58,7 @@ def run(results_directory, optimizer, objectivefunc, Iterations):
         )
 
         plt.xlabel("Optimizer")
-        plt.ylabel("Global Best Fitness Value")
+        plt.ylabel("Global Best Value")
         fig_name = results_directory + "/boxplot-" + objective_name + ".png"
         plt.savefig(fig_name, bbox_inches="tight")
         plt.clf()
