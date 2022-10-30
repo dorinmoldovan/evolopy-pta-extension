@@ -21,10 +21,14 @@ Activate the virtual environment using the command:
 
     C:\Users\Admin\.venv\evolopy-pta-extension\Scripts\activate
 
-Run:
+Install the requirements using the command:
 
     pip install -r requirements.txt
 
 Deactivate the virtual environment using the command:
 
     C:\Users\Admin\.venv\evolopy-pta-extension\Scripts\deactivate
+
+Run the app using the command:
+
+    python simulator.py
