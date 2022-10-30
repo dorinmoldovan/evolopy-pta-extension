@@ -49,7 +49,7 @@ def f5(x):
 
 
 def f6(x):
-    o = numpy.sum(abs((x + 0.5)) ** 2)
+    o = numpy.sum(math.floor(x + 0.5) ** 2)
     return o
 
 
