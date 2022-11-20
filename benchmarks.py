@@ -108,6 +108,7 @@ def g5(x):
 
 ## this function was corrected, the first term should not be 10 * ((numpy.sin(math.pi * (1 + (x[0] + 1) / 4))) ** 2)
 ## but 10 * (numpy.sin(math.pi * (1 + (x[0] + 1) / 4)))
+## TODO: check if this function is correct
 
 
 def g6(x):
