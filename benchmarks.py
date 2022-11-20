@@ -17,6 +17,11 @@ def prod(it):
     return p
 
 
+def Ufun(x, a, k, m):
+    y = k * ((x - a) ** m) * (x > a) + k * ((-x - a) ** m) * (x < (-a))
+    return y
+
+
 def f1(x):
     s = numpy.sum(x ** 2)
     return s
@@ -63,18 +68,18 @@ def f7(x):
     return o
 
 
-def f8(x):
+def g1(x):
     o = sum(-x * (numpy.sin(numpy.sqrt(abs(x)))))
     return o
 
 
-def f9(x):
+def g2(x):
     dim = len(x)
     o = numpy.sum(x ** 2 - 10 * numpy.cos(2 * math.pi * x)) + 10 * dim
     return o
 
 
-def f10(x):
+def g3(x):
     dim = len(x)
     o = (
         -20 * numpy.exp(-0.2 * numpy.sqrt(numpy.sum(x ** 2) / dim))
@@ -85,7 +90,7 @@ def f10(x):
     return o
 
 
-def f11(x):
+def g4(x):
     dim = len(x)
     w = [i for i in range(dim)]
     w = [i + 1 for i in w]
@@ -93,11 +98,46 @@ def f11(x):
     return o
 
 
-def f12(x):
+def g5(x):
     dim = len(x)
     w = [i for i in range(dim)]
     w = [i + 1 for i in w]
     o = numpy.sum(x ** 2) / 2000 - prod(numpy.cos(x * x / w)) ** 4 + 1
+    return o
+
+
+## this function was corrected, the first term should not be 10 * ((numpy.sin(math.pi * (1 + (x[0] + 1) / 4))) ** 2)
+## but 10 * (numpy.sin(math.pi * (1 + (x[0] + 1) / 4)))
+
+
+def g6(x):
+    dim = len(x)
+    o = (math.pi / dim) * (
+        10 * (numpy.sin(math.pi * (1 + (x[0] + 1) / 4)))
+        + numpy.sum(
+            (((x[: dim - 1] + 1) / 4) ** 2)
+            * (1 + 10 * ((numpy.sin(math.pi * (1 + (x[1 :] + 1) / 4)))) ** 2)
+        )
+        + ((x[dim - 1] + 1) / 4) ** 2
+    ) + numpy.sum(Ufun(x, 10, 100, 4))
+    return o
+
+
+## TODO: check if this function is correct
+
+
+def g7(x):
+    if x.ndim==1:
+        x = x.reshape(1,-1)
+
+    o = 0.1 * (
+        (numpy.sin(3 * numpy.pi * x[:,0])) ** 2
+        + numpy.sum(
+            (x[:,:-1] - 1) ** 2
+            * (1 + (numpy.sin(3 * numpy.pi * x[:,1:])) ** 2), axis=1
+        )
+        + ((x[:,-1] - 1) ** 2) * (1 + (numpy.sin(2 * numpy.pi * x[:,-1])) ** 2)
+    ) + numpy.sum(Ufun(x, 5, 100, 4))
     return o
 
 
@@ -111,10 +151,12 @@ def getFunctionDetails(a):
         "f5": ["f5", -30, 30, 30],
         "f6": ["f6", -100, 100, 30],
         "f7": ["f7", -1.28, 1.28, 30],
-        "f8": ["f8", -500, 500, 30],
-        "f9": ["f9", -5.12, 5.12, 30],
-        "f10": ["f10", -32, 32, 30],
-        "f11": ["f11", -600, 600, 30],
-        "f12": ["f12", -300, 300, 30],
+        "g1": ["g1", -500, 500, 30],
+        "g2": ["g2", -5.12, 5.12, 30],
+        "g3": ["g3", -32, 32, 30],
+        "g4": ["g4", -600, 600, 30],
+        "g5": ["g5", -300, 300, 30],
+        "g6": ["g6", -50, 50, 30],
+        "g7": ["g7", -50, 50, 30],
     }
     return param.get(a, "nothing")
