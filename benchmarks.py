@@ -28,7 +28,7 @@ def f1(x):
 
 
 def f2(x):
-    o = sum(abs(x)) + prod(abs(x))
+    o = numpy.sum(abs(x)) + numpy.prod(abs(x))
     return o
 
 
