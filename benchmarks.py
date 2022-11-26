@@ -106,38 +106,28 @@ def g5(x):
     return o
 
 
-## this function was corrected, the first term should not be 10 * ((numpy.sin(math.pi * (1 + (x[0] + 1) / 4))) ** 2)
-## but 10 * (numpy.sin(math.pi * (1 + (x[0] + 1) / 4)))
-## TODO: check if this function is correct
-
-
 def g6(x):
     dim = len(x)
     o = (math.pi / dim) * (
-        10 * (numpy.sin(math.pi * (1 + (x[0] + 1) / 4)))
+        10 * numpy.sin(math.pi * (1 + (x[0] + 1) / 4))
         + numpy.sum(
             (((x[: dim - 1] + 1) / 4) ** 2)
-            * (1 + 10 * ((numpy.sin(math.pi * (1 + (x[1 :] + 1) / 4)))) ** 2)
+            * (1 + 10 * numpy.sin(math.pi * (1 + (x[1 :] + 1) / 4)) ** 2)
         )
         + ((x[dim - 1] + 1) / 4) ** 2
     ) + numpy.sum(Ufun(x, 10, 100, 4))
     return o
 
 
-## TODO: check if this function is correct
-
-
 def g7(x):
-    if x.ndim==1:
-        x = x.reshape(1,-1)
-
+    dim = len(x)
     o = 0.1 * (
-        (numpy.sin(3 * numpy.pi * x[:,0])) ** 2
-        + numpy.sum(
-            (x[:,:-1] - 1) ** 2
-            * (1 + (numpy.sin(3 * numpy.pi * x[:,1:])) ** 2), axis=1
-        )
-        + ((x[:,-1] - 1) ** 2) * (1 + (numpy.sin(2 * numpy.pi * x[:,-1])) ** 2)
+            numpy.sin(3 * math.pi * x[0])**2
+            + numpy.sum(
+                ((x[: dim] - 1)**2)
+                * (1 + numpy.sin(3 * math.pi * x[: dim] + 1)**2)
+            )
+            + (x[dim - 1]-1)**2 * (1 + numpy.sin(2 * math.pi * x[dim-1])**2)
     ) + numpy.sum(Ufun(x, 5, 100, 4))
     return o
 
