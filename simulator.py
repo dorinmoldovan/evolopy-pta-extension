@@ -13,7 +13,7 @@ optimizer = ["PSO"]
 
 # Select benchmark function"
 # "f1"
-objectivefunc = ["f1", "f2", "f3", "f4", "f5", "f6", "f7", "g1", "g2", "g3", "g4", "g5", "g6", "g7"]
+objectivefunc = ["h1"]
 
 # Select number of repetitions for each experiment.
 # To obtain meaningful statistical results, usually 30 independent runs are executed for each algorithm.
