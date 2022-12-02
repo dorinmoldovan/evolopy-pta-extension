@@ -12,8 +12,11 @@ from optimizer import run
 optimizer = ["PSO"]
 
 # Select benchmark function"
-# "f1"
-objectivefunc = ["h5"]
+# "f1", "f1", "f2", "f3", "f4", "f5", "f6", "f7"
+# "g1", "g2", "g3", "g4", "g5", "g6", "g7
+# "h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "h9", "h10"
+objectivefunc = ["f1", "f2", "f3", "f4", "f5", "f6", "f7", "g1", "g2", "g3", "g4", "g5", "g6", "g7",
+                 "h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "h9", "h10"]
 
 # Select number of repetitions for each experiment.
 # To obtain meaningful statistical results, usually 30 independent runs are executed for each algorithm.
