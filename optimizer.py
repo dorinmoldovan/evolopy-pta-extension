@@ -6,6 +6,10 @@ Created on Tue May 17 15:50:25 2016
 """
 from pathlib import Path
 import optimizers.PSO as pso
+import optimizers.GWO as gwo
+import optimizers.CS as cs
+import optimizers.CSA as csa
+import optimizers.HOA as hoa
 import benchmarks
 import csv
 import numpy
@@ -25,6 +29,14 @@ def selector(algo, func_details, popSize, Iter):
 
     if algo == "PSO":
         x = pso.PSO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+    elif algo == "GWO":
+        x = gwo.GWO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+    elif algo == "CS":
+        x = cs.CS(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+    elif algo == "CSA":
+        x = csa.CSA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+    elif algo == "HOA":
+        x = hoa.HOA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     else:
         return None
     return x
