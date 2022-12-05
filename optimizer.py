@@ -10,6 +10,7 @@ import optimizers.GWO as gwo
 import optimizers.CS as cs
 import optimizers.CSA as csa
 import optimizers.HOA as hoa
+import optimizers.PTA as pta
 import benchmarks
 import csv
 import numpy
@@ -37,6 +38,8 @@ def selector(algo, func_details, popSize, Iter):
         x = csa.CSA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "HOA":
         x = hoa.HOA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+    elif algo == "PTA":
+        x = pta.PTA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     else:
         return None
     return x
