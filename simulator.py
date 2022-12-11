@@ -9,7 +9,7 @@ from optimizer import run
 
 # Select optimizers
 # "PSO", "GWO", "CS", "CSA", "HOA", "PTA"
-optimizer = ["PSO", "GWO", "CS", "CSA", "HOA", "PTA"]
+optimizer = ["PTA"]
 
 # Select benchmark function"
 # "f1", "f2", "f3", "f4", "f5", "f6", "f7"
