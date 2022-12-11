@@ -73,8 +73,8 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
             rj = random.random()
 
             if rp >= PP:
+                n = (i + l) % PopSize
                 for j in range(dim):
-                    n = (i + l) % PopSize
                     # similarity with neighbor plums (look at neighbors) - more plums one next to another
                     flowers[i][j] = flowers[i][j] + ri * FR * (plums[n][j] - flowers[i][j]) \
                                     + rj * 2 * FR * (gBest[j] - flowers[i][j])
