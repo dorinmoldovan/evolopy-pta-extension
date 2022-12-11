@@ -5,12 +5,14 @@ import time
 
 def PTA(objf, lb, ub, dim, PopSize, iters):
 
-    fl = 0.9
-
     # PTA parameters
 
     ## polination probability
     PP = 0.5
+    ## mutation threshold
+    MT = 0.3
+    ## flowering rate
+    FR = 0.8
 
     s = solution()
     if not isinstance(lb, list):
@@ -38,6 +40,20 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
         flowers[:, i] = numpy.random.uniform(0, 1, PopSize) * (ub[i] - lb[i]) + lb[i]
         plums[:, i] = flowers[:, i]
 
+    for i in range(0, PopSize):
+        flowerScore[i] = objf(flowers[i, :])
+        plumScore[i] = objf(plums[i, :])
+
+    minimum = plumScore[0]
+    minIndex = 0
+    for i in range(1, PopSize):
+        if plumScore[i] < minimum:
+            minimum = plumScore[i]
+            minIndex = i
+    if minimum < gBestScore:
+        gBest = plums[minIndex, :].copy()
+        gBestScore = minimum
+
     convergence_curve = numpy.zeros(iters)
 
     ############################################
@@ -52,23 +68,20 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
             for j in range(dim):
                 flowers[i, j] = numpy.clip(flowers[i, j], lb[j], ub[j])
 
+            rp = random.random()
             ri = random.random()
+            rj = random.random()
 
-            if random.random() >= PP:
+            if rp >= PP:
                 for j in range(dim):
-                    k = random.randint(0, 1)
-                    n = i
-                    if k == 0:
-                        n = n - 1
-                        if n < 0:
-                            n = PopSize - 1
-                    else:
-                        n = n + 1
-                        if n == PopSize:
-                            n = 0
+                    n = (i + l) % PopSize
                     # similarity with neighbor plums (look at neighbors) - more plums one next to another
-                    flowers[i][j] = flowers[i][j] + ri * fl * (plums[n][j] - flowers[i][j])
+                    flowers[i][j] = flowers[i][j] + ri * FR * (plums[n][j] - flowers[i][j]) \
+                                    + rj * 2 * FR * (gBest[j] - flowers[i][j])
                     # replace a part of the plums
+            elif rp >= MT:
+                for j in range(dim):
+                    flowers[i][j] = random.random() * (ub[j] - lb[j]) + lb[j]
             else:
                 for j in range(dim):
                     flowers[i][j] = random.random() * (ub[j] - lb[j]) + lb[j]
