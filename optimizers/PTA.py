@@ -65,8 +65,8 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
     for l in range(0, iters):
         for i in range(0, PopSize):
 
-            for j in range(dim):
-                flowers[i, j] = numpy.clip(flowers[i, j], lb[j], ub[j])
+            # for j in range(dim):
+            #     flowers[i, j] = numpy.clip(flowers[i, j], lb[j], ub[j])
 
             rp = random.random()
             ri = random.random()
@@ -83,6 +83,7 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
                 for j in range(dim):
                     flowers[i][j] = random.random() * (ub[j] - lb[j]) + lb[j]
             else:
+                # TODO: write equations according to alpha and beta positions of the best flowers
                 for j in range(dim):
                     flowers[i][j] = random.random() * (ub[j] - lb[j]) + lb[j]
 
