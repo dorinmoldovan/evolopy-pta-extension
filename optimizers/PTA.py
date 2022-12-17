@@ -8,11 +8,13 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
     # PTA parameters
 
     ## polination probability
-    PP = 0.5
+    PP = 0.6
     ## mutation threshold
     MT = 0.3
     ## flowering rate
     FR = 0.8
+    ## flowers proximity
+    FP = 1
 
     s = solution()
     if not isinstance(lb, list):
@@ -29,6 +31,12 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
 
     plumScore = numpy.zeros(PopSize)
     plumScore.fill(float("inf"))
+
+    Alpha_pos = numpy.zeros(dim)
+    Alpha_score = float("inf")
+
+    Beta_pos = numpy.zeros(dim)
+    Beta_score = float("inf")
 
     # pBest = numpy.zeros((PopSize, dim))
 
@@ -63,29 +71,63 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
     s.startTime = time.strftime("%Y-%m-%d-%H-%M-%S")
 
     for l in range(0, iters):
-        for i in range(0, PopSize):
 
+        FP = 1 + l / iters
+
+        for i in range(0, PopSize):
+            # Calculate objective function
+            fitness = flowerScore[i]
+
+            # Update Alpha and Beta
+            if fitness < Alpha_score:
+                Beta_score = Alpha_score  # Update beta
+                Beta_pos = Alpha_pos.copy()
+                Alpha_score = fitness
+                # Update alpha
+                Alpha_pos = flowers[i, :].copy()
+
+            if fitness > Alpha_score and fitness < Beta_score:
+                Beta_score = fitness  # Update beta
+                Beta_pos = flowers[i, :].copy()
+
+        for i in range(0, PopSize):
             # for j in range(dim):
             #     flowers[i, j] = numpy.clip(flowers[i, j], lb[j], ub[j])
 
             rp = random.random()
-            ri = random.random()
-            rj = random.random()
 
             if rp >= PP:
                 n = (i + l) % PopSize
                 for j in range(dim):
+                    ri = random.random()
+                    rj = random.random()
                     # similarity with neighbor plums (look at neighbors) - more plums one next to another
                     flowers[i][j] = flowers[i][j] + ri * FR * (plums[n][j] - flowers[i][j]) \
                                     + rj * 2 * FR * (gBest[j] - flowers[i][j])
                     # replace a part of the plums
             elif rp >= MT:
                 for j in range(dim):
-                    flowers[i][j] = random.random() * (ub[j] - lb[j]) + lb[j]
+                    rm = random.random()
+                    if rm < 0.5:
+                        t = 2 - FP
+                        flowers[i][j] = (t - t * t + t * t * t) * (random.random() * (ub[j] - lb[j]) + lb[j])
             else:
-                # TODO: write equations according to alpha and beta positions of the best flowers
                 for j in range(dim):
-                    flowers[i][j] = random.random() * (ub[j] - lb[j]) + lb[j]
+                    r1 = random.random()  # r1 is a random number in [0,1]
+                    r2 = random.random()  # r2 is a random number in [0,1]
+                    A1 = 2 * FP * r1 - FP - (2-FP) * (2-FP) * r1 + (2-FP) * (2-FP) * (2-FP) * r1
+                    C1 = FP * r2 - (2-FP) * (2-FP) * r2 + (2-FP) * (2-FP) * (2-FP) * r2
+                    D_alpha = abs(C1 * Alpha_pos[j] - flowers[i, j])
+                    X1 = Alpha_pos[j] - A1 * D_alpha
+
+                    r1 = random.random()
+                    r2 = random.random()
+                    A2 = 2 * FP * r1 - FP - (2-FP) * (2-FP) * r1
+                    C2 = FP * r2 - (2-FP) * (2-FP) * r2
+                    D_beta = abs(C2 * Beta_pos[j] - flowers[i, j])
+                    X2 = Beta_pos[j] - A2 * D_beta
+
+                    flowers[i][j] = (2 * X1 + X2) / 3
 
         for i in range(0, PopSize):
             for j in range(dim):
