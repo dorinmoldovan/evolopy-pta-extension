@@ -15,6 +15,8 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
     FR = 0.8
     ## flowers proximity
     FP = 1
+    ## mutation ratio threshold
+    MTR = 2 * 1.0 / 3
 
     s = solution()
     if not isinstance(lb, list):
@@ -108,7 +110,7 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
             elif rp >= MT:
                 for j in range(dim):
                     rm = random.random()
-                    if rm < 0.5:
+                    if rm < MTR:
                         flowers[i][j] = (random.random() * (ub[j] - lb[j]) + lb[j])
             else:
                 for j in range(dim):
