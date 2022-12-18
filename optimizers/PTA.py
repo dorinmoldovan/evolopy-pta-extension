@@ -8,7 +8,7 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
     # PTA parameters
 
     ## polination probability
-    PP = 0.6
+    PP = 0.5
     ## mutation threshold
     MT = 0.3
     ## flowering rate
@@ -109,8 +109,7 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
                 for j in range(dim):
                     rm = random.random()
                     if rm < 0.5:
-                        t = 2 - FP
-                        flowers[i][j] = (t - t * t + t * t * t) * (random.random() * (ub[j] - lb[j]) + lb[j])
+                        flowers[i][j] = (random.random() * (ub[j] - lb[j]) + lb[j])
             else:
                 for j in range(dim):
                     r1 = random.random()  # r1 is a random number in [0,1]
