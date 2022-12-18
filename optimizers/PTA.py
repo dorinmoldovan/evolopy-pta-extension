@@ -15,8 +15,8 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
     FR = 0.8
     ## flowers proximity
     FP = 1
-    ## mutation ratio threshold
-    MTR = 2 * 1.0 / 3
+    ## mutation rate
+    MR = 2 * 1.0 / 3
 
     s = solution()
     if not isinstance(lb, list):
@@ -109,24 +109,21 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
                     # replace a part of the plums
             elif rp >= MT:
                 for j in range(dim):
-                    rm = random.random()
-                    if rm < MTR:
+                    if random.random() > MR:
                         flowers[i][j] = (random.random() * (ub[j] - lb[j]) + lb[j])
             else:
                 for j in range(dim):
                     r1 = random.random()  # r1 is a random number in [0,1]
                     r2 = random.random()  # r2 is a random number in [0,1]
-                    A1 = 2 * FP * r1 - FP - (2-FP) * (2-FP) * r1 + (2-FP) * (2-FP) * (2-FP) * r1
-                    C1 = FP * r2 - (2-FP) * (2-FP) * r2 + (2-FP) * (2-FP) * (2-FP) * r2
-                    D_alpha = abs(C1 * Alpha_pos[j] - flowers[i, j])
-                    X1 = Alpha_pos[j] - A1 * D_alpha
+                    r3 = random.random()
+                    A = 2 * FP * r1 - FP
+                    B = FP * r2
+                    C = FP * r3 + 2 * FP
 
-                    r1 = random.random()
-                    r2 = random.random()
-                    A2 = 2 * FP * r1 - FP - (2-FP) * (2-FP) * r1
-                    C2 = FP * r2 - (2-FP) * (2-FP) * r2
-                    D_beta = abs(C2 * Beta_pos[j] - flowers[i, j])
-                    X2 = Beta_pos[j] - A2 * D_beta
+                    D_alpha = abs(B * Alpha_pos[j] - flowers[i, j])
+                    X1 = Alpha_pos[j] - (A - C) * D_alpha
+                    D_beta = abs(B * Beta_pos[j] - flowers[i, j])
+                    X2 = Beta_pos[j] - (A + C) * D_beta
 
                     flowers[i][j] = (2 * X1 + X2) / 3
 
