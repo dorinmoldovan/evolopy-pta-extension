@@ -9,14 +9,10 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
 
     ## polination probability
     PP = 0.5
-    ## mutation threshold
-    MT = 0.3
-    ## flowering rate
-    FR = 0.8
-    ## flowers proximity
-    FP = 1
     ## mutation rate
-    MR = 2 * 1.0 / 3
+    MR = 0.5
+    ## mutation threshold
+    MT = 0.8
 
     s = solution()
     if not isinstance(lb, list):
@@ -34,11 +30,11 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
     plumScore = numpy.zeros(PopSize)
     plumScore.fill(float("inf"))
 
-    Alpha_pos = numpy.zeros(dim)
-    Alpha_score = float("inf")
+    Ripe_pos = numpy.zeros(dim)
+    Ripe_score = float("inf")
 
-    Beta_pos = numpy.zeros(dim)
-    Beta_score = float("inf")
+    Unripe_pos = numpy.zeros(dim)
+    Unripe_score = float("inf")
 
     # pBest = numpy.zeros((PopSize, dim))
 
@@ -73,24 +69,21 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
     s.startTime = time.strftime("%Y-%m-%d-%H-%M-%S")
 
     for l in range(0, iters):
-
-        FP = 1 + l / iters
-
         for i in range(0, PopSize):
             # Calculate objective function
             fitness = flowerScore[i]
 
             # Update Alpha and Beta
-            if fitness < Alpha_score:
-                Beta_score = Alpha_score  # Update beta
-                Beta_pos = Alpha_pos.copy()
-                Alpha_score = fitness
+            if fitness < Ripe_score:
+                Unripe_score = Ripe_score  # Update beta
+                Unripe_pos = Ripe_pos.copy()
+                Ripe_score = fitness
                 # Update alpha
-                Alpha_pos = flowers[i, :].copy()
+                Ripe_pos = plums[i, :].copy()
 
-            if fitness > Alpha_score and fitness < Beta_score:
-                Beta_score = fitness  # Update beta
-                Beta_pos = flowers[i, :].copy()
+            if fitness > Ripe_score and fitness < Unripe_score:
+                Unripe_score = fitness  # Update beta
+                Unripe_pos = plums[i, :].copy()
 
         for i in range(0, PopSize):
             # for j in range(dim):
@@ -99,32 +92,34 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
             rp = random.random()
 
             if rp >= PP:
-                n = (i + l) % PopSize
                 for j in range(dim):
                     ri = random.random()
                     rj = random.random()
                     # similarity with neighbor plums (look at neighbors) - more plums one next to another
-                    flowers[i][j] = flowers[i][j] + ri * FR * (plums[n][j] - flowers[i][j]) \
-                                    + rj * 2 * FR * (gBest[j] - flowers[i][j])
+                    flowers[i][j] = flowers[i][j] + 2 * ri * (Ripe_pos[j] - flowers[i][j]) + rj * (Unripe_pos[j] - flowers[i][j])
                     # replace a part of the plums
-            elif rp >= MT:
+            elif rp >= MR:
                 for j in range(dim):
-                    if random.random() > MR:
-                        flowers[i][j] = (random.random() * (ub[j] - lb[j]) + lb[j])
+                    r = random.random()
+                    if r > MT:
+                        flowers[i][j] = random.random() * (ub[j] - lb[j]) + lb[j]
+                    else:
+                        flowers[i][j] = (2 * flowers[i][j] + plums[i][j]) / 3
             else:
                 for j in range(dim):
                     r1 = random.random()  # r1 is a random number in [0,1]
                     r2 = random.random()  # r2 is a random number in [0,1]
-                    r3 = random.random()
-                    A = 2 * FP * r1 - FP
-                    B = FP * r2
-                    C = FP * r3 + 2 * FP
+                    A = 2 * r1 - 1
+                    B = 2 * r2
+                    D_ripe = B * Ripe_pos[j] - plums[i, j]
+                    X1 = Ripe_pos[j] - A * D_ripe
 
-                    D_alpha = abs(B * Alpha_pos[j] - flowers[i, j])
-                    X1 = Alpha_pos[j] - (A - C) * D_alpha
-                    D_beta = abs(B * Beta_pos[j] - flowers[i, j])
-                    X2 = Beta_pos[j] - (A + C) * D_beta
-
+                    r1 = random.random()  # r1 is a random number in [0,1]
+                    r2 = random.random()  # r2 is a random number in [0,1]
+                    A = r1 - 1
+                    B = r2
+                    D_unripe = B * Unripe_pos[j] - plums[i, j]
+                    X2 = Unripe_pos[j] + A * D_unripe
                     flowers[i][j] = (2 * X1 + X2) / 3
 
         for i in range(0, PopSize):
