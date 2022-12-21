@@ -104,7 +104,7 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
                     if r > MT:
                         flowers[i][j] = random.random() * (ub[j] - lb[j]) + lb[j]
                     else:
-                        flowers[i][j] = (2 * flowers[i][j] + plums[i][j]) / 3
+                        flowers[i][j] = (flowers[i][j] + 2 * plums[i][j]) / 3
             else:
                 for j in range(dim):
                     r1 = random.random()  # r1 is a random number in [0,1]
