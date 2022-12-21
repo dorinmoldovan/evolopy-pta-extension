@@ -109,7 +109,7 @@ def g5(x):
 def g6(x):
     dim = len(x)
     o = (math.pi / dim) * (
-        10 * numpy.sin(math.pi * (1 + (x[0] + 1) / 4))
+        10 * ((numpy.sin(math.pi * (1 + (x[0] + 1) / 4)))**2)
         + numpy.sum(
             (((x[: dim - 1] + 1) / 4) ** 2)
             * (1 + 10 * numpy.sin(math.pi * (1 + (x[1 :] + 1) / 4)) ** 2)
