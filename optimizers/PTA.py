@@ -10,7 +10,7 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
     ## polination probability
     PP = 0.5
     ## mutation rate
-    MR = 0.5
+    MR = 0.2
     ## mutation threshold
     MT = 0.8
 
@@ -96,7 +96,7 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
                     ri = random.random()
                     rj = random.random()
                     # similarity with neighbor plums (look at neighbors) - more plums one next to another
-                    flowers[i][j] = flowers[i][j] + 2 * ri * (Ripe_pos[j] - flowers[i][j]) + rj * (Unripe_pos[j] - flowers[i][j])
+                    flowers[i][j] = flowers[i][j] + ri * (Ripe_pos[j] - flowers[i][j]) + rj * (Unripe_pos[j] - flowers[i][j])
                     # replace a part of the plums
             elif rp >= MR:
                 for j in range(dim):
@@ -104,13 +104,13 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
                     if r > MT:
                         flowers[i][j] = random.random() * (ub[j] - lb[j]) + lb[j]
                     else:
-                        flowers[i][j] = (flowers[i][j] + 2 * plums[i][j]) / 3
+                        flowers[i][j] = (flowers[i][j] + plums[i][j]) / 2
             else:
                 for j in range(dim):
                     r1 = random.random()  # r1 is a random number in [0,1]
                     r2 = random.random()  # r2 is a random number in [0,1]
-                    A = 2 * r1 - 1
-                    B = 2 * r2
+                    A = r1 - 1
+                    B = r2
                     D_ripe = B * Ripe_pos[j] - plums[i, j]
                     X1 = Ripe_pos[j] - A * D_ripe
 
@@ -119,8 +119,8 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
                     A = r1 - 1
                     B = r2
                     D_unripe = B * Unripe_pos[j] - plums[i, j]
-                    X2 = Unripe_pos[j] + A * D_unripe
-                    flowers[i][j] = (2 * X1 + X2) / 3
+                    X2 = Unripe_pos[j] - A * D_unripe
+                    flowers[i][j] = (X1 + X2) / 2
 
         for i in range(0, PopSize):
             for j in range(dim):
