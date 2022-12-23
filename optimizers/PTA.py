@@ -85,14 +85,21 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
             #     flowers[i, j] = numpy.clip(flowers[i, j], lb[j], ub[j])
 
             rp = random.random()
-            if rp >= 0.8:
+            if rp >= 0.75:
+                r1 = random.random()
+                r2 = random.random()
                 for j in range(dim):
-                    flowers[i][j] = random.random() * (ub[j] - lb[j]) + lb[j]
-            elif rp >= 0.4:
+                    flowers[i][j] = flowers[i][j] + 2 * r1 * (Ripe_pos[j] - flowers[i][j]) \
+                                    + 2 * r2 * (Unripe_pos[j] - flowers[i][j])
+            elif rp >= 0.5:
                 for j in range(dim):
                     r1 = random.random()
                     r2 = random.random()
-                    flowers[i][j] = plums[i][j] + 2 * r1 * (Ripe_pos[j] - plums[i][j]) + 2 * r2 * (Unripe_pos[j] - plums[i][j])
+                    flowers[i][j] = plums[i][j] + 2 * r1 * (Ripe_pos[j] - plums[i][j]) \
+                                    + 2 * r2 * (Unripe_pos[j] - plums[i][j])
+            elif rp >= 0.25:
+                for j in range(dim):
+                    flowers[i][j] = random.random() * (ub[j] - lb[j]) + lb[j]
             else:
                 sigma_ripe = 1
                 if plumScore[i] >= Ripe_score:
