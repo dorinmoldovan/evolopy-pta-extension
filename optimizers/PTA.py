@@ -8,6 +8,14 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
     # PTA parameters
     ## epsilon
     eps = 1.e+300
+    ## PP polination threshold
+    PT = 0.8
+    ## FP fruitness threshold
+    FT = 0.2
+    ## Fmin
+    Fmin = 0.5
+    ## Fmax
+    Fmax = 1
 
     s = solution()
     if not isinstance(lb, list):
@@ -85,21 +93,16 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
             #     flowers[i, j] = numpy.clip(flowers[i, j], lb[j], ub[j])
 
             rp = random.random()
-            if rp >= 0.75:
-                r1 = random.random()
-                r2 = random.random()
+            if rp >= PT:
                 for j in range(dim):
-                    flowers[i][j] = flowers[i][j] + 2 * r1 * (Ripe_pos[j] - flowers[i][j]) \
-                                    + 2 * r2 * (Unripe_pos[j] - flowers[i][j])
-            elif rp >= 0.5:
+                    flowers[i][j] = flowers[i][j] + random.uniform(Fmin, Fmax) * (plums[i][j] - flowers[i][j])
+            elif rp >= FT:
                 for j in range(dim):
                     r1 = random.random()
                     r2 = random.random()
-                    flowers[i][j] = plums[i][j] + 2 * r1 * (Ripe_pos[j] - plums[i][j]) \
-                                    + 2 * r2 * (Unripe_pos[j] - plums[i][j])
-            elif rp >= 0.25:
-                for j in range(dim):
-                    flowers[i][j] = random.random() * (ub[j] - lb[j]) + lb[j]
+
+                    flowers[i][j] = flowers[i][j] + 2 * r1 * (Ripe_pos[j] - flowers[i][j]) \
+                                    + 2 * r2 * (Unripe_pos[j] - flowers[i][j])
             else:
                 sigma_ripe = 1
                 if plumScore[i] >= Ripe_score:
