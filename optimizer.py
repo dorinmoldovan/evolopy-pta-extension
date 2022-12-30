@@ -90,7 +90,7 @@ def run(optimizer, objectivefunc, NumOfRuns, params, export_flags):
     # CSV Header for for the cinvergence
     CnvgHeader = []
 
-    results_directory = time.strftime("%Y-%m-%d-%H-%M-%S") + "/"
+    results_directory = "results/" + time.strftime("%Y-%m-%d-%H-%M-%S") + "/"
     Path(results_directory).mkdir(parents=True, exist_ok=True)
 
     for l in range(0, Iterations):
