@@ -8,13 +8,13 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
     # PTA parameters
     ## epsilon
     eps = 1.e+300
-    ## PP polination threshold
-    PT = 0.8
-    ## FP fruitness threshold
-    FT = 0.2
-    ## Fmin
+    ## fruitness threshold
+    FT = 0.8
+    ## ripeness threshold
+    RT = 0.2
+    ## minimum flowering
     Fmin = 0.5
-    ## Fmax
+    ## maximum flowering
     Fmax = 1
 
     s = solution()
@@ -93,10 +93,10 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
             #     flowers[i, j] = numpy.clip(flowers[i, j], lb[j], ub[j])
 
             rp = random.random()
-            if rp >= PT:
+            if rp >= FT:
                 for j in range(dim):
                     flowers[i][j] = flowers[i][j] + random.uniform(Fmin, Fmax) * (plums[i][j] - flowers[i][j])
-            elif rp >= FT:
+            elif rp >= RT:
                 for j in range(dim):
                     r1 = random.random()
                     r2 = random.random()
