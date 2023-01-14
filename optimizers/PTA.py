@@ -12,10 +12,10 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
     FT = 0.8
     ## ripeness threshold
     RT = 0.2
-    ## minimum flowering
-    Fmin = 0.5
-    ## maximum flowering
-    Fmax = 1
+    ## minimum flowering rate
+    FRmin = 0.5
+    ## maximum flowering rate
+    FRmax = 1
 
     s = solution()
     if not isinstance(lb, list):
@@ -95,7 +95,7 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
             rp = random.random()
             if rp >= FT:
                 for j in range(dim):
-                    flowers[i][j] = flowers[i][j] + random.uniform(Fmin, Fmax) * (plums[i][j] - flowers[i][j])
+                    flowers[i][j] = flowers[i][j] + random.uniform(FRmin, FRmax) * (plums[i][j] - flowers[i][j])
             elif rp >= RT:
                 for j in range(dim):
                     r1 = random.random()
