@@ -108,7 +108,7 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
                 if plumScore[i] >= Ripe_score:
                     sigma_ripe = numpy.exp((Ripe_score - plumScore[i]) / (abs(plumScore[i]) + eps))
                 for j in range(dim):
-                    flowers[i][j] = plums[i][j] * (1 + numpy.random.uniform(0, sigma_ripe))
+                    flowers[i][j] = plums[i][j] * (1 + numpy.random.normal(0, sigma_ripe))
 
         for i in range(0, PopSize):
             for j in range(dim):
