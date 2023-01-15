@@ -12,9 +12,9 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
     FT = 0.8
     ## ripeness threshold
     RT = 0.2
-    ## minimum flowering rate
+    ## minimum fruitiness rate
     FRmin = 0.5
-    ## maximum flowering rate
+    ## maximum fruitiness rate
     FRmax = 1
 
     s = solution()
