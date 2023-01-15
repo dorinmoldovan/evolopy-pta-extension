@@ -6,6 +6,7 @@ Created on Tue May 17 15:50:25 2016
 """
 from pathlib import Path
 import optimizers.PSO as pso
+import optimizers.CSO as cso
 import optimizers.GWO as gwo
 import optimizers.CS as cs
 import optimizers.CSA as csa
@@ -30,6 +31,8 @@ def selector(algo, func_details, popSize, Iter):
 
     if algo == "PSO":
         x = pso.PSO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+    elif algo == "CSO":
+        x = cso.CSO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "GWO":
         x = gwo.GWO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "CS":
