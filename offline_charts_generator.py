@@ -2,8 +2,8 @@ import plot_convergence as conv_plot
 import plot_boxplot as box_plot
 
 # Select optimizers
-# "PSO", "GWO", "CS", "CSA", "HOA", "PTA"
-optimizer = ["PSO", "GWO", "CS", "CSA", "HOA", "PTA"]
+# "CSO", "PSO", "GWO", "CS", "CSA", "HOA", "PTA"
+optimizer = ["CSO", "PSO", "GWO", "CS", "CSA", "HOA", "PTA"]
 
 # Select benchmark function"
 # "f1", "f2", "f3", "f4", "f5", "f6", "f7"
@@ -14,7 +14,7 @@ objectivefunc = ["f1"]
 # number of iterations
 Iterations = 1000
 
-results_directory = "results/temp_files"
+results_directory = "results/final_results_f1"
 
 conv_plot.run(results_directory, optimizer, objectivefunc, Iterations)
 box_plot.run(results_directory, optimizer, objectivefunc, Iterations)
