@@ -7,8 +7,8 @@ def CSA(objf, lb, ub, dim, PopSize, iters):
 
     # CSA parameters
 
-    fl = 0.9
-    AP = 0.5
+    fl = 2
+    AP = 0.1
 
     s = solution()
     if not isinstance(lb, list):
