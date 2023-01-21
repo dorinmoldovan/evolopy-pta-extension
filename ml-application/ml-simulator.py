@@ -4,10 +4,16 @@ import time
 import copy
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
+from sklearn.metrics import mean_absolute_error
 import numpy as np
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.ensemble import AdaBoostRegressor
+from sklearn.ensemble import ExtraTreesRegressor
 
 
 D = 8
+repetitions = 30
 
 
 def mean_absolute_percentage_error(y_true, y_pred):
@@ -65,15 +71,28 @@ X_test, y_test = load_test_data_csv("heating", 1)
 y_train_standardized, y_test_standardized = standardize_Y(y_train, y_test)
 X_train_standardized, X_test_standardized = standardize_X(X_train, X_test, y_train, y_test)
 
-from sklearn.ensemble import RandomForestRegressor
-algorithm1 = RandomForestRegressor(n_estimators=100, random_state=42)
+algorithm1 = RandomForestRegressor(random_state=42)
+algorithm2 = GradientBoostingRegressor(random_state=42)
+algorithm3 = AdaBoostRegressor(random_state=42)
+algorithm4 = ExtraTreesRegressor(random_state=42)
 
 algorithm1.fit(X_train_standardized, y_train_standardized)
 predictions1 = algorithm1.predict(X_test_standardized)
+algorithm2.fit(X_train_standardized, y_train_standardized)
+predictions2 = algorithm2.predict(X_test_standardized)
+algorithm3.fit(X_train_standardized, y_train_standardized)
+predictions3 = algorithm3.predict(X_test_standardized)
+algorithm4.fit(X_train_standardized, y_train_standardized)
+predictions4 = algorithm4.predict(X_test_standardized)
 
-rmse = mean_squared_error(y_test_standardized, predictions1, squared=False)
-errors = abs(predictions1 - y_test_standardized)
-r2 = r2_score(y_test_standardized, predictions1)
-MAPE = mean_absolute_percentage_error(y_test_standardized, predictions1)
+predictions = [0] * len(y_test_standardized)
 
-print('The values of the evaluation metrics are the following: ', 'MAPE:', MAPE, 'RMSE:', rmse, 'R2:', r2, 'MAE:', round(np.mean(errors), 2))
+for i in range(0, len(predictions)):
+    predictions[i] = 1.0 / 4 * predictions1[i] + 1.0 / 4 * predictions2[i] + 1.0 / 4 * predictions3[i] + 1.0 / 4 * predictions4[i]
+
+rmse = mean_squared_error(y_test_standardized, predictions, squared=False)
+MAE = mean_absolute_error(predictions, y_test_standardized)
+r2 = r2_score(y_test_standardized, predictions)
+MAPE = mean_absolute_percentage_error(y_test_standardized, predictions)
+
+print('The values of the evaluation metrics are the following: ', 'MAPE =', MAPE, 'RMSE =', rmse, 'R2 =', r2, 'MAE =', MAE)
