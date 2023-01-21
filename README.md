@@ -32,3 +32,7 @@ Deactivate the virtual environment using the command:
 Run the app using the command:
 
     python simulator.py
+
+Run the ML app using the command:
+
+    python ml-application\ml-simulator.py
