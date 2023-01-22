@@ -35,4 +35,4 @@ Run the app using the command:
 
 Run the ML app using the command:
 
-    python ml-application\ml-simulator.py
+    python ml-simulator.py

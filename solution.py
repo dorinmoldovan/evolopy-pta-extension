@@ -14,3 +14,4 @@ class solution:
         self.startTime = 0
         self.endTime = 0
         self.executionTime = 0
+        self.gbest = []
