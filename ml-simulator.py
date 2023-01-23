@@ -13,12 +13,14 @@ from sklearn.ensemble import AdaBoostRegressor
 from sklearn.ensemble import ExtraTreesRegressor
 import ml_benchmark
 import ml_optimizers.PSO as pso
+import ml_optimizers.CSA as csa
+import ml_optimizers.CS as cs
 
 
 D = 8
 repetitions = 2
 folders = ["heating", "cooling"]
-ensembles = ["average", "PSO"]
+ensembles = ["CS"]
 
 
 def mean_absolute_percentage_error(y_true, y_pred):
@@ -99,6 +101,74 @@ def compute_results():
     print(weights)
 
 
+def export_results_to_csv():
+    global convergence, executionTime, objfname, Flag_details, Flag, folder, fold, ensemble
+    convergence = [0] * repetitions
+    executionTime = [0] * repetitions
+    for k in range(0, repetitions):
+        convergence[k] = x.convergence
+        optimizerName = x.optimizer
+        objfname = x.objfname
+
+        Path(results_directory + "/" + ensemble + "/" + folder + "/" + "data" + "_" + str(fold+1)).mkdir(parents=True, exist_ok=True)
+        ExportToFile = results_directory + "/" + ensemble + "/" + folder + "/" + "data" + "_" + str(fold+1) + "/" + "experiment_details.csv"
+        with open(ExportToFile, "a", newline="\n") as out:
+            writer = csv.writer(out, delimiter=",")
+            if (
+                    Flag_details == False
+            ):  # just one time to write the header of the CSV file
+                header = np.concatenate(
+                    [["Optimizer", "objfname", "ExecutionTime"], CnvgHeader]
+                )
+                writer.writerow(header)
+                Flag_details = True  # at least one experiment
+            executionTime[k] = x.executionTime
+            a = np.concatenate(
+                [[x.optimizer, x.objfname, x.executionTime], x.convergence]
+            )
+            writer.writerow(a)
+        out.close()
+    Path(results_directory + "/" + ensemble + "/" + folder + "/" + "data" + "_" + str(fold+1)).mkdir(parents=True, exist_ok=True)
+    ExportToFile = results_directory + "/" + ensemble + "/" + folder + "/" + "data" + "_" + str(fold+1) + "/" + "experiment.csv"
+    with open(ExportToFile, "a", newline="\n") as out:
+        writer = csv.writer(out, delimiter=",")
+        if (
+                Flag == False
+        ):  # just one time to write the header of the CSV file
+            header = np.concatenate(
+                [["Optimizer", "objfname", "ExecutionTime"], CnvgHeader]
+            )
+            writer.writerow(header)
+            Flag = True
+
+        avgExecutionTime = float("%0.2f" % (sum(executionTime) / repetitions))
+        avgConvergence = np.around(
+            np.mean(convergence, axis=0, dtype=np.float64), decimals=6
+        ).tolist()
+        a = np.concatenate(
+            [[optimizerName, objfname, avgExecutionTime], avgConvergence]
+        )
+        writer.writerow(a)
+    out.close()
+
+
+def initialize_csv_data():
+    global Iterations, Flag, Flag_details, CnvgHeader, l
+    Iterations = 100
+    Flag = False
+    Flag_details = False
+    CnvgHeader = []
+    for l in range(0, Iterations):
+        CnvgHeader.append("Iter" + str(l + 1))
+
+
+def compute_predictions():
+    global i, weights
+    for i in range(0, len(predictions)):
+        predictions[i] = weights[0] * Pred[0][i] + weights[1] * Pred[1][i] \
+                         + weights[2] * Pred[2][i] + weights[3] * Pred[3][i]
+
+
 for ensemble in ensembles:
     for folder in folders:
         for fold in range(5):
@@ -145,12 +215,35 @@ for ensemble in ensembles:
                 weights = [1.0 / 4, 1.0 / 4, 1.0 / 4, 1.0 / 4]
                 compute_results()
             elif ensemble == "PSO":
+
+                initialize_csv_data()
                 for rep in range(repetitions):
                     timerStart = time.time()
-                    x = pso.PSO(getattr(ml_benchmark, "RMSE"), -2000, 2000, 4, 50, 1000, Pred, y_test_standardized)
+                    x = pso.PSO(getattr(ml_benchmark, "RMSE"), -2000, 2000, 4, 50, Iterations, Pred, y_test_standardized)
                     weights = ml_benchmark.extract_weights(x.gbest, 2000)
-
-                    for i in range(0, len(predictions)):
-                        predictions[i] = weights[0] * Pred[0][i] + weights[1] * Pred[1][i] \
-                                         + weights[2] * Pred[2][i] + weights[3] * Pred[3][i]
+                    compute_predictions()
                     compute_results()
+
+                export_results_to_csv()
+            elif ensemble == "CSA":
+
+                initialize_csv_data()
+                for rep in range(repetitions):
+                    timerStart = time.time()
+                    x = csa.CSA(getattr(ml_benchmark, "RMSE"), -2000, 2000, 4, 50, Iterations, Pred, y_test_standardized)
+                    weights = ml_benchmark.extract_weights(x.gbest, 2000)
+                    compute_predictions()
+                    compute_results()
+
+                export_results_to_csv()
+            elif ensemble == "CS":
+
+                initialize_csv_data()
+                for rep in range(repetitions):
+                    timerStart = time.time()
+                    x = cs.CS(getattr(ml_benchmark, "RMSE"), -2000, 2000, 4, 50, Iterations, Pred, y_test_standardized)
+                    weights = ml_benchmark.extract_weights(x.gbest, 2000)
+                    compute_predictions()
+                    compute_results()
+
+                export_results_to_csv()

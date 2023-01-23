@@ -7,8 +7,12 @@ def extract_weights(L, ub):
     dim = len(L)
     w = L + ub
     sum = numpy.sum(w)
-    for i in range(dim):
-        w[i] = w[i] / sum
+    if sum == 0:
+        for i in range(dim):
+            w[i] = 1.0 / 4
+    else:
+        for i in range(dim):
+            w[i] = w[i] / sum
     return w
 
 
