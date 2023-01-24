@@ -5,6 +5,7 @@ from sklearn.metrics import mean_squared_error
 
 def extract_weights(L, ub):
     dim = len(L)
+    L = numpy.array(L)
     w = L + ub
     sum = numpy.sum(w)
     if sum == 0:
