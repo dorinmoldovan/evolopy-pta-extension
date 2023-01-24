@@ -15,12 +15,16 @@ import ml_benchmark
 import ml_optimizers.PSO as pso
 import ml_optimizers.CSA as csa
 import ml_optimizers.CS as cs
+import ml_optimizers.CSO as cso
+import ml_optimizers.GWO as gwo
+import ml_optimizers.HOA as hoa
+import ml_optimizers.PTA as pta
 
 
 D = 8
-repetitions = 2
+repetitions = 30
 folders = ["heating", "cooling"]
-ensembles = ["CS"]
+ensembles = ["average", "CSO", "PSO", "GWO", "CS", "CSA", "HOA", "PTA"]
 
 
 def mean_absolute_percentage_error(y_true, y_pred):
@@ -154,7 +158,7 @@ def export_results_to_csv():
 
 def initialize_csv_data():
     global Iterations, Flag, Flag_details, CnvgHeader, l
-    Iterations = 100
+    Iterations = 500
     Flag = False
     Flag_details = False
     CnvgHeader = []
@@ -242,6 +246,50 @@ for ensemble in ensembles:
                 for rep in range(repetitions):
                     timerStart = time.time()
                     x = cs.CS(getattr(ml_benchmark, "RMSE"), -2000, 2000, 4, 50, Iterations, Pred, y_test_standardized)
+                    weights = ml_benchmark.extract_weights(x.gbest, 2000)
+                    compute_predictions()
+                    compute_results()
+
+                export_results_to_csv()
+            elif ensemble == "CSO":
+
+                initialize_csv_data()
+                for rep in range(repetitions):
+                    timerStart = time.time()
+                    x = cso.CSO(getattr(ml_benchmark, "RMSE"), -2000, 2000, 4, 50, Iterations, Pred, y_test_standardized)
+                    weights = ml_benchmark.extract_weights(x.gbest, 2000)
+                    compute_predictions()
+                    compute_results()
+
+                export_results_to_csv()
+            elif ensemble == "GWO":
+
+                initialize_csv_data()
+                for rep in range(repetitions):
+                    timerStart = time.time()
+                    x = gwo.GWO(getattr(ml_benchmark, "RMSE"), -2000, 2000, 4, 50, Iterations, Pred, y_test_standardized)
+                    weights = ml_benchmark.extract_weights(x.gbest, 2000)
+                    compute_predictions()
+                    compute_results()
+
+                export_results_to_csv()
+            elif ensemble == "HOA":
+
+                initialize_csv_data()
+                for rep in range(repetitions):
+                    timerStart = time.time()
+                    x = hoa.HOA(getattr(ml_benchmark, "RMSE"), -2000, 2000, 4, 50, Iterations, Pred, y_test_standardized)
+                    weights = ml_benchmark.extract_weights(x.gbest, 2000)
+                    compute_predictions()
+                    compute_results()
+
+                export_results_to_csv()
+            elif ensemble == "PTA":
+
+                initialize_csv_data()
+                for rep in range(repetitions):
+                    timerStart = time.time()
+                    x = pta.PTA(getattr(ml_benchmark, "RMSE"), -2000, 2000, 4, 50, Iterations, Pred, y_test_standardized)
                     weights = ml_benchmark.extract_weights(x.gbest, 2000)
                     compute_predictions()
                     compute_results()
