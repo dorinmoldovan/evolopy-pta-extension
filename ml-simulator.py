@@ -24,7 +24,7 @@ import ml_optimizers.PTA as pta
 D = 8
 repetitions = 30
 folders = ["heating", "cooling"]
-ensembles = ["average", "CSO", "PSO", "GWO", "CS", "CSA", "HOA", "PTA"]
+ensembles = ["average", "RFR", "GBR", "ABR", "ETR", "CSO", "PSO", "GWO", "CS", "CSA", "HOA", "PTA"]
 
 
 def mean_absolute_percentage_error(y_true, y_pred):
@@ -217,6 +217,30 @@ for ensemble in ensembles:
                     predictions[i] = 1.0 / 4 * Pred[0][i] + 1.0 / 4 * Pred[1][i] \
                                      + 1.0 / 4 * Pred[2][i] + 1.0 / 4 * Pred[3][i]
                 weights = [1.0 / 4, 1.0 / 4, 1.0 / 4, 1.0 / 4]
+                compute_results()
+            elif ensemble == "RFR":
+                timerStart = time.time()
+                for i in range(0, len(predictions)):
+                    predictions[i] = Pred[0][i]
+                weights = [1.0, 0.0, 0.0, 0.0]
+                compute_results()
+            elif ensemble == "GBR":
+                timerStart = time.time()
+                for i in range(0, len(predictions)):
+                    predictions[i] = Pred[1][i]
+                weights = [0.0, 1.0, 0.0, 0.0]
+                compute_results()
+            elif ensemble == "ABR":
+                timerStart = time.time()
+                for i in range(0, len(predictions)):
+                    predictions[i] = Pred[2][i]
+                weights = [0.0, 0.0, 1.0, 0.0]
+                compute_results()
+            elif ensemble == "ETR":
+                timerStart = time.time()
+                for i in range(0, len(predictions)):
+                    predictions[i] = Pred[3][i]
+                weights = [0.0, 0.0, 0.0, 1.0]
                 compute_results()
             elif ensemble == "PSO":
 
