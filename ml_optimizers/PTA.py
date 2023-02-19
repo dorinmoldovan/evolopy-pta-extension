@@ -74,7 +74,7 @@ def PTA(objf, lb, ub, dim, PopSize, iters, Pred, y_test_standardized):
     for l in range(0, iters):
         for i in range(0, PopSize):
             # Calculate objective function
-            fitness = flowerScore[i]
+            fitness = plumScore[i]
 
             # Update Alpha and Beta
             if fitness < Ripe_score:
