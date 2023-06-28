@@ -46,7 +46,6 @@ def get_best_nest(nest, newnest, fitness, n, dim, objf):
     tempnest = numpy.copy(nest)
 
     for j in range(0, n):
-        # for j=1:size(nest,1),
         fnew = objf(newnest[j, :])
         if fnew <= fitness[j]:
             fitness[j] = fnew
@@ -83,26 +82,18 @@ def empty_nests(nest, pa, n, dim):
 
 def CS(objf, lb, ub, dim, n, N_IterTotal):
 
-    # lb=-1
-    # ub=1
-    # n=50
-    # N_IterTotal=1000
-    # dim=30
-
     # Discovery rate of alien eggs/solutions
     pa = 0.25
 
     nd = dim
 
-    #    Lb=[lb]*nd
-    #    Ub=[ub]*nd
     convergence = []
     if not isinstance(lb, list):
         lb = [lb] * dim
     if not isinstance(ub, list):
         ub = [ub] * dim
 
-    # RInitialize nests randomely
+    # Reinitialize nests randomly
     nest = numpy.zeros((n, dim))
     for i in range(dim):
         nest[:, i] = numpy.random.uniform(0, 1, n) * (ub[i] - lb[i]) + lb[i]

@@ -39,8 +39,6 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
     Unripe_pos = numpy.zeros(dim)
     Unripe_score = float("inf")
 
-    # pBest = numpy.zeros((PopSize, dim))
-
     gBest = numpy.zeros(dim)
     gBestScore = float("inf")
 
@@ -76,22 +74,17 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
             # Calculate objective function
             fitness = plumScore[i]
 
-            # Update Alpha and Beta
             if fitness < Ripe_score:
-                Unripe_score = Ripe_score  # Update beta
+                Unripe_score = Ripe_score
                 Unripe_pos = Ripe_pos.copy()
                 Ripe_score = fitness
-                # Update alpha
                 Ripe_pos = plums[i, :].copy()
 
             if fitness > Ripe_score and fitness < Unripe_score:
-                Unripe_score = fitness  # Update beta
+                Unripe_score = fitness
                 Unripe_pos = plums[i, :].copy()
 
         for i in range(0, PopSize):
-            # for j in range(dim):
-            #     flowers[i, j] = numpy.clip(flowers[i, j], lb[j], ub[j])
-
             rp = random.random()
             if rp >= FT:
                 for j in range(dim):

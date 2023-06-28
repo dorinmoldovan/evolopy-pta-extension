@@ -53,7 +53,6 @@ def PSO(objf, lb, ub, dim, PopSize, iters):
 
     for l in range(0, iters):
         for i in range(0, PopSize):
-            # pos[i,:]=checkBounds(pos[i,:],lb,ub)
             for j in range(dim):
                 pos[i, j] = numpy.clip(pos[i, j], lb[j], ub[j])
             # Calculate objective function for each particle

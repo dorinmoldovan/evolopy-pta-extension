@@ -158,7 +158,7 @@ def run(optimizer, objectivefunc, NumOfRuns, params, export_flags):
     if Export_boxplot == True:
         box_plot.run(results_directory, optimizer, objectivefunc, Iterations)
 
-    if Flag == False:  # Failed to run at least one experiment
+    if Flag == False:
         print(
             "No Optimizer or Cost function is selected. Check lists of available optimizers and cost functions"
         )
