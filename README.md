@@ -57,4 +57,5 @@ The Energy Efficiency Dataset is publicly available at: https://archive.ics.uci.
 Papers citing this dataset:
 
 [1] Mahmut Yazici, Shadi Basurra, Mohamed Gaber. 2018. Edge Machine Learning: Enabling Smart Internet of Things Applications. Published in Big Data and Cognitive Computing. [[CrossRef](https://www.mdpi.com/2504-2289/2/3/26)]
+
 [2] Jan Zegklitz, Petr Posík. 2017. Published in ArXiv. [[CrossRef](https://arxiv.org/abs/1701.03641)]
