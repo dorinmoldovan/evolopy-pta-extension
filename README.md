@@ -60,6 +60,6 @@ Papers citing this dataset:
 
 [2] Jan Zegklitz, Petr Posík. 2017. Published in ArXiv. [[CrossRef](https://arxiv.org/abs/1701.03641)]
 
-This dataset is licensed under a [[Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/legalcode)] (CC BY 4.0) license.
+This dataset is licensed under a [Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/legalcode) (CC BY 4.0) license.
 
 This allows for the sharing and adaptation of the datasets for any purpose, provided that the appropriate credit is given.
