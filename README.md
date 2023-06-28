@@ -12,7 +12,7 @@ An extension of the [EvoloPy](https://github.com/7ossam81/EvoloPy) project which
   - Grey Wolf Optimization (GWO)
   - Horse Optimization Algorithm (HOA)
   - Particle Swarm Optimization (PSO)
-  - Plum Tree Algorithm
+  - Plum Tree Algorithm (PTA)
 - 24 objective functions were applied.
 - 1 machine learning application was presented.
 
