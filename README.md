@@ -1,5 +1,5 @@
 # evolopy-pta-extension
-An extension of the [EvoloPy](https://github.com/7ossam81/EvoloPy) project which includes the PTA nature-inspired algorithm and contains one machine learning application.
+An extension of the [EvoloPy](https://github.com/7ossam81/EvoloPy) project which includes the Plum Tree Algorithm (PTA) and contains one machine learning application.
 
 ![Plums](plums.jpg)
 
