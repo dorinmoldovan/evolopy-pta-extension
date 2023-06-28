@@ -26,8 +26,6 @@ def CSA(objf, lb, ub, dim, PopSize, iters):
     memScore = numpy.zeros(PopSize)
     memScore.fill(float("inf"))
 
-    # pBest = numpy.zeros((PopSize, dim))
-
     gBest = numpy.zeros(dim)
     gBestScore = float("inf")
 

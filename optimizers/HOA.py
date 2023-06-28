@@ -146,7 +146,6 @@ def HOA(objf, lb, ub, dim, PopSize, iters):
                 for j in range(PopSize):
                     if i != j and hType[j] != 2 and hHerdRelation[j] == herdIndex:
                         k = k + 1
-                        ## check this line
                         if eval[i] < eval[j]:
                             rng = rng + 1
                         if eval[i] == eval[j]:
@@ -231,7 +230,6 @@ def HOA(objf, lb, ub, dim, PopSize, iters):
                 for j in range(PopSize):
                     if i != j and hType[j] != 2 and hHerdRelation[j] == herdIndex:
                         k = k + 1
-                        ## Check this line
                         if eval[i] < eval[j]:
                             rng = rng + 1
                         if eval[i] == eval[i]:
