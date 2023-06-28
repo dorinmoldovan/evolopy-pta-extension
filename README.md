@@ -1,7 +1,7 @@
 # evolopy-pta-extension
 An extension of the [EvoloPy](https://github.com/7ossam81/EvoloPy) project which includes the PTA nature-inspired algorithm and contains three machine learning applications.
 
-![Plums](plums.jpg)
+![Plums](plums.jpg){:height="100px" width="100px"}
 
 # Features
 
