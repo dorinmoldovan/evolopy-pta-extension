@@ -7,7 +7,7 @@ def PTA(objf, lb, ub, dim, PopSize, iters):
 
     # PTA parameters
     ## epsilon
-    eps = 1.e+300
+    eps = 1.e-300
     ## fruitness threshold
     FT = 0.8
     ## ripeness threshold
